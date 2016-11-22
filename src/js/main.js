@@ -3,6 +3,8 @@ window.onload = function () {
     "use strict";
 
     $("#container").highcharts({});
+    $("#message-container").hide();
+    var dataHandler;
 
     var sendData = function sendData(data) {
         var toSend = {};
@@ -27,12 +29,31 @@ window.onload = function () {
     MashupPlatform.wiring.registerCallback("highcharts", function (data) {
         var jdata = JSON.parse(data);
         jdata = hijackEvents(jdata);
-        $("#container").highcharts(jdata);
+        if (jdata.alertmessage) {
+            $("#message-container").show();
+            $("#container").hide();
+            $("#message").text(jdata.alertmessage);
+
+        } else {
+            $("#message-container").hide();
+            $("#container").show();
+            $("#container").highcharts(jdata);
+        }
     });
 
     MashupPlatform.wiring.registerCallback("highstock", function (data) {
         var jdata = JSON.parse(data);
         jdata = hijackEvents(jdata);
-        $("#container").highcharts("StockChart", jdata);
+
+        if (jdata.alertmessage) {
+            $("#message-container").hide();
+            $("#container").show();
+            $("#message").text(jdata.alertmessage);
+
+        } else {
+            $("#message-container").show();
+            $("#container").hide();
+            $("#container").highcharts("StockChart", jdata);
+        }
     });
 };
