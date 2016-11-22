@@ -5,7 +5,6 @@ window.onload = function () {
 
     $("#container").highcharts({});
     $("#message-container").hide();
-    var dataHandler;
 
     var sendData = function sendData(data) {
         var toSend = {
@@ -38,6 +37,18 @@ window.onload = function () {
         }
 
         data = hijackEvents(data);
+
+        if (data.alertmessage) {
+            $("#message-container").show();
+            $("#container").hide();
+            $("#message").text(data.alertmessage);
+
+        } else {
+            $("#message-container").hide();
+            $("#container").show();
+            $("#container").highcharts(data);
+        }
+
         $("#container").highcharts(data);
     });
 
@@ -52,6 +63,16 @@ window.onload = function () {
         }
 
         data = hijackEvents(data);
-        $("#container").highcharts("StockChart", data);
+
+        if (data.alertmessage) {
+            $("#message-container").hide();
+            $("#container").show();
+            $("#message").text(data.alertmessage);
+
+        } else {
+            $("#message-container").show();
+            $("#container").hide();
+            $("#container").highcharts("StockChart", data);
+        }
     });
 };
