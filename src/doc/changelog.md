@@ -1,4 +1,4 @@
-## v0.1.1
+## v0.1.1 (2016-11-29)
 
 - Added support for displaying messages inside the widget using events
 - Upgraded to Highcharts 5.0.2
